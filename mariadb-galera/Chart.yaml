@@ -1,0 +1,16 @@
+name: mariadb-galera
+version: 0.1.1
+description: Chart for MariaDB Galera cluster
+keywords:
+  - mariadb
+  - mysql
+  - database
+  - sql
+  - galera
+  - cluster
+sources:
+  - https://github.com/adfinis-sygroup/mariadb-galera-k8s
+maintainers:
+  - name: Adfinis SyGroup AG
+    email: support@adfinis-sygroup.ch
+engine: gotpl
