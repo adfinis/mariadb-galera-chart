@@ -50,11 +50,17 @@ spec:
           - name: MYSQL_USER
             value: {{ default "" .Values.mysqlUser | quote }}
           - name: MYSQL_PASSWORD
-            value: {{ default "" .Values.mysqlPassword | quote }}
+            valueFrom:
+              secretKeyRef:
+                name: {{ template "fullname" . }}
+                key: mysql-password
           - name: MYSQL_DATABASE
             value: {{ default "" .Values.mysqlDatabase | quote }}
           - name: MYSQL_ROOT_PASSWORD
-            value: {{ default "" .Values.mysqlRootPassword | quote }}
+            valueFrom:
+              secretKeyRef:
+                name: {{ template "fullname" . }}
+                key: mysql-root-password
           - name: GALERA_PETSET_NAME
             value: {{ template "fullname" . }}
 {{- if .Values.persistence.enabled }}
