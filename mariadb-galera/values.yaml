@@ -1,0 +1,32 @@
+## Adfinis SyGroup MariaDB Galera image version
+## ref: https://hub.docker.com/r/adfinissygroup/k8s-mariadb-galera-centos/tags/
+##
+## Default: none
+image: adfinissygroup/k8s-mariadb-galera-centos:v002
+
+## Specify an imagePullPolicy (Required)
+## It's recommended to change this to 'Always' if the image tag is 'latest'
+## ref: http://kubernetes.io/docs/user-guide/images/#updating-images
+imagePullPolicy: IfNotPresent
+
+## Specify password for root user
+# mysqlRootPassword:
+
+## Create a database user
+# mysqlUser:
+# mysqlPassword:
+
+## Create a database
+# mysqlDatabase:
+
+## Number of pods in the StatefulSet
+replicas: 3
+
+## Enable persistence using Persistent Volume Claims
+## ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
+##
+persistence:
+  enabled: true
+  storageClass: generic
+  accessMode: ReadWriteOnce
+  size: 8Gi
