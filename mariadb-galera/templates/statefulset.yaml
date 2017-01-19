@@ -41,8 +41,6 @@ spec:
               secretKeyRef:
                 name: {{ template "fullname" . }}
                 key: mysql-root-password
-          - name: GALERA_PETSET_NAME
-            value: {{ template "fullname" . }}
         ports:
         - containerPort: 3306
           name: mysql
