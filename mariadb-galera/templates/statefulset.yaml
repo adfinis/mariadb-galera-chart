@@ -58,6 +58,8 @@ spec:
             - /usr/share/container-scripts/mysql/readiness-probe.sh
           initialDelaySeconds: 15
           timeoutSeconds: 5
+        resources:
+{{ toYaml .Values.resources | indent 10 }}
 {{- if .Values.persistence.enabled }}
         volumeMounts:
         - name: datadir
