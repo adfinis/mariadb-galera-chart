@@ -21,26 +21,6 @@ spec:
       - name: {{ template "fullname" . }}
         image: "{{ .Values.image }}"
         imagePullPolicy: {{ .Values.imagePullPolicy | quote }}
-        ports:
-        - containerPort: 3306
-          name: mysql
-        - containerPort: 4444
-          name: sst
-        - containerPort: 4567
-          name: replication
-        - containerPort: 4568
-          name: ist
-        readinessProbe:
-          exec:
-            command:
-            - /usr/share/container-scripts/mysql/readiness-probe.sh
-          initialDelaySeconds: 15
-          timeoutSeconds: 5
-{{- if .Values.persistence.enabled }}
-        volumeMounts:
-        - name: datadir
-          mountPath: /var/lib/mysql
-{{- end }}
         env:
           - name: POD_NAMESPACE
             valueFrom:
@@ -63,7 +43,25 @@ spec:
                 key: mysql-root-password
           - name: GALERA_PETSET_NAME
             value: {{ template "fullname" . }}
+        ports:
+        - containerPort: 3306
+          name: mysql
+        - containerPort: 4444
+          name: sst
+        - containerPort: 4567
+          name: replication
+        - containerPort: 4568
+          name: ist
+        readinessProbe:
+          exec:
+            command:
+            - /usr/share/container-scripts/mysql/readiness-probe.sh
+          initialDelaySeconds: 15
+          timeoutSeconds: 5
 {{- if .Values.persistence.enabled }}
+        volumeMounts:
+        - name: datadir
+          mountPath: /var/lib/mysql
   volumeClaimTemplates:
   - metadata:
       name: datadir
