@@ -17,6 +17,10 @@ spec:
       annotations:
         pod.alpha.kubernetes.io/initialized: "true"
     spec:
+      volumes:
+      - name: config
+        configMap:
+          name: {{ template "fullname" . }}
       containers:
       - name: {{ template "fullname" . }}
         image: "{{ .Values.image }}"
@@ -58,8 +62,10 @@ spec:
           timeoutSeconds: 5
         resources:
 {{ toYaml .Values.resources | indent 10 }}
-{{- if .Values.persistence.enabled }}
         volumeMounts:
+        - name: config
+          mountPath: /etc/config
+{{- if .Values.persistence.enabled }}
         - name: datadir
           mountPath: /var/lib/mysql
   volumeClaimTemplates:

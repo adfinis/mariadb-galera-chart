@@ -53,6 +53,7 @@ The following tables lists the configurable parameters of the MariaDB chart and 
 | `persistence.accessMode`   | Use volume as ReadOnly or ReadWrite        | `ReadWriteOnce`                                            |
 | `persistence.size`         | Size of data volume                        | `8Gi`                                                      |
 | `resources`                | CPU/Memory resource requests/limits        | Memory: `256Mi`, CPU: `250m`                               |
+| `config`                   | Multi-line string for my.cnf configuration | `nil`                                                      |
 
 The above parameters map to the env variables defined in the [adfinis-sygroup/openshift-mariadb-galera](http://github.com/adfinis-sygroup/openshift-mariadb-galera).
 
@@ -73,6 +74,29 @@ $ helm install --name my-release -f values.yaml stable/mariadb-galera
 ```
 
 > **Tip**: You can use the default [values.yaml](values.yaml)
+
+### Custom my.cnf configuration
+
+The Adfinis SyGroup MariaDB Galera Cluster image allows you to provide a custom
+`my_extra.cnf` file for configuring MariaDB.
+This Chart uses the `config` value to mount a custom `my_extra.cnf` using a [ConfigMap](http://kubernetes.io/docs/user-guide/configmap/).
+You can configure this by creating a YAML file that defines the `config` property as a multi-line string in the format of a `my.cnf` file.
+For example:
+
+```bash
+cat > mariadb-values.yaml <<EOF
+config: |-
+  [mysqld]
+  max_allowed_packet = 64M
+  sql_mode=STRICT_ALL_TABLES
+  ft_stopword_file=/etc/mysql/stopwords.txt
+  ft_min_word_len=3
+  ft_boolean_syntax=' |-><()~*:""&^'
+  innodb_buffer_pool_size=2G
+EOF
+
+helm install --name my-release -f mariadb-values.yaml incubator/mariadb-galera
+```
 
 ## Persistence
 
