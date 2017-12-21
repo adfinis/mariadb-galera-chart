@@ -16,21 +16,6 @@ spec:
         app: {{ template "fullname" . }}
       annotations:
         pod.alpha.kubernetes.io/initialized: "true"
-{{- if .Values.persistence.enabled }}
-        pod.beta.kubernetes.io/init-containers: '[
-            {
-                "name": "mariadb-galera-prepare",
-                "image": "busybox",
-                "command": ["sh", "-c", "chown -R 27:27 /var/lib/mysql"],
-                "volumeMounts": [
-                    {
-                        "name": "datadir",
-                        "mountPath": "/var/lib/mysql"
-                    }
-                ]
-            }
-        ]'
-{{- end }}
     spec:
       volumes:
       - name: config
@@ -83,6 +68,13 @@ spec:
 {{- if .Values.persistence.enabled }}
         - name: datadir
           mountPath: /var/lib/mysql
+      initContainers:
+      - name: mariadb-galera-prepare
+        image: busybox
+        command: ['sh', '-c', 'chown -R 27:27 /var/lib/mysql']
+        volumeMounts:
+        - name: datadir
+          mountPath: "/var/lib/mysql"
   volumeClaimTemplates:
   - metadata:
       name: datadir
