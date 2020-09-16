@@ -1,3 +1,14 @@
+# :warning: This project is no longer being maintained :warning:
+
+The code in this repository was created as a proof of concept back when
+StatefulSets where still called PetSets and hasn't seen much love since. 
+
+Feel free to use the bootstrap logic and image structure in your project, but
+we're not going to implement any changes going forward.
+
+If you find the code in this repository helpful, but want to use it under a
+different license please get in contact with us.
+
 # MariaDB Galera Cluster
 
 [MariaDB](https://mariadb.org/) is one of the most popular database servers in the world. It’s made by the original developers of MySQL and guaranteed to stay open source. Notable users include Wikipedia, Facebook and Google.
